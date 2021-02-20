@@ -17,7 +17,7 @@
     Use git to clone this repo, or download it.
 
     ```shell
-    # klona repositoryt till en lokal mapp
+    # Clone the repo to a local directory
     git clone https://github.com/MartinRybergLaude/Aguacate.git
     ```
 
