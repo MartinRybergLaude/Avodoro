@@ -1,4 +1,5 @@
 import React, { ChangeEvent, CSSProperties, useEffect, useState } from "react"
+import { callbackify } from "util"
 import styles from "./Slider.module.scss"
 
 interface Props {
@@ -25,10 +26,10 @@ export default function Slider(props: Props) {
     setValue(e.currentTarget.valueAsNumber)
   }
   function setProgressStyles() {
-    const newValue = (value - props.min) * 100 / (props.max * props.min)
+    const newValue = (value - props.min) * 100 / (props.max - props.min)
     setStyle({
       input: {background: `linear-gradient(to right, var(--color-primary), var(--color-primary) ${(value-props.min)/(props.max-props.min)*100}%, var(--color-text-secondary) ${(value-props.min)/(props.max-props.min)*100}%, var(--color-text-secondary) 100%)`},
-      output: {left: `calc(${newValue}% + (${15 - newValue * 0.26}px))`}
+      output: {left: `calc(${newValue}% + (${14 - newValue * 0.28}px))`}
     })
   }
   return (
