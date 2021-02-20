@@ -1,10 +1,15 @@
 import React from "react"
 import "./App.scss"
+import Slider from "./components/Slider"
+import logo from "./logo.svg"
 
 export default function App() {
   return (
-    <div>
-      
+    <div className="container-master">
+      <img src={logo}/>
+      <h2>Adjust your settings</h2>
+      <p>Optimize the focus-break balance to your needs</p>
+      <Slider default={25} min={1} max={120}/>
     </div>
   )
 }

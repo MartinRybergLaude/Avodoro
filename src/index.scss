@@ -19,6 +19,10 @@ html {
   height: 100%;
 }
 
+#root {
+  height: 100%;
+}
+
 @function hexToRGB($hex) {
   @return red($hex), green($hex), blue($hex);
 }
@@ -27,9 +31,9 @@ html {
   --color-primary: #44bc7f;
   --color-primary-rgb: #{hexToRGB(#44bc7f)};
   --color-secondary: #2c8357;
-  --color-accent: #f9eab0;
+  --color-accent: #7f6e5d;
   --color-error: #ed5252;
-  --color-text-primary: #272d33;
+  --color-text-primary: #393d50;
   --color-text-secondary: #888ea8;
   --color-background: #ffffff;
   --color-background-alt: #e7e9f3;
@@ -39,7 +43,7 @@ html {
   :root {
     --color-text-primary: #e0e4f5;
     --color-text-secondary: #888ea8;
-    --color-background: #83c0ef;
+    --color-background: #1f222b;
     --color-background-alt: #40434f;
   }
 }
@@ -67,21 +71,76 @@ h1 {
   color: var(--color-text-primary);
   font-weight: 700;
   text-align: center;
+  margin: 0;
 }
 
 h2 {
-  color: var(--color-primary);
+  color: var(--color-text-primary);
   font-weight: 700;
-  font-size: 14px;
-  display: inline-block;
+  font-size: 32px;
+  margin: 0;
 }
 
 p {
   text-align: center;
   padding: 0;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: 0;
   color: var(--color-text-secondary);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
+}
+img {
+  width: 256px;
+}
+.container-master {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 16px;
+}
+
+#range {
+  width: 180px;
+  height: 4px;
+  border: 0;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+#range .ui-slider-handle {
+  position: absolute;
+  margin: -6px 0 0 -17px;
+  border-radius: 100px;
+  background: var(--color-primary);
+  color: #fff;
+  border: 0;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  width: 34px;
+  outline: none;
+  cursor: pointer;
+  font-size: 8px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.1s ease;
+}
+
+#range .ui-slider-handle:hover,
+#range .ui-slider-handle:focus {
+  transform: scale(1.1);
+}
+
+#range .ui-slider-range {
+  background: #69b6b5;
+}
+
+.cntr {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
