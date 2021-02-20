@@ -9,7 +9,7 @@ export default function App() {
       <img src={logo}/>
       <h2>Adjust your settings</h2>
       <p>Optimize the focus-break balance to your needs</p>
-      <Slider default={1} min={1} max={120}/>
+      <Slider title="Focus time" default={1} min={1} max={120}/>
     </div>
   )
 }
