@@ -29,7 +29,7 @@ export default function Slider(props: Props) {
   function setProgressStyles() {
     const newValue = (value - props.min) * 100 / (props.max - props.min)
     setStyle({
-      input: {background: `linear-gradient(to right, var(--color-primary), var(--color-primary) ${(value-props.min)/(props.max-props.min)*100}%, rgba(var(--color-primary-rgb), 0.5) ${(value-props.min)/(props.max-props.min)*100}%,rgba(var(--color-primary-rgb), 0.5) 100%)`},
+      input: {background: `linear-gradient(to right, var(--color-accent), var(--color-accent) ${(value-props.min)/(props.max-props.min)*100}%, rgba(var(--color-accent-rgb), 0.5) ${(value-props.min)/(props.max-props.min)*100}%,rgba(var(--color-accent-rgb), 0.5) 100%)`},
       output: {left: `calc(${newValue}% + (${14 - newValue * 0.28}px))`}
     })
   }
