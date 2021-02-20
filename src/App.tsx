@@ -1,15 +1,17 @@
 import React from "react"
-import "./App.scss"
-import Slider from "./components/Slider"
-import logo from "./logo.svg"
+import ScreenStart from "./screens/ScreenStart"
+import styles from "./App.module.scss"
 
 export default function App() {
+  
   return (
-    <div className="container-master">
-      <img src={logo}/>
-      <h2>Adjust your settings</h2>
-      <p>Optimize the focus-break balance to your needs</p>
-      <Slider title="Focus time" default={1} min={1} max={120}/>
+    <div className="containerMaster">
+      <div className="containerScreens">
+        <ScreenStart/>
+      </div>
+      <button className={styles.btn}>
+        <div className={styles.icon}/>
+      </button>
     </div>
   )
 }
