@@ -8,8 +8,7 @@
   }
 }
 .titleContainer {
-  margin: 0 16px;
-  width: calc(100% - 32px);
+  width: 100%;
   display: flex;
   place-content: center space-between;
 }
@@ -19,7 +18,7 @@
   place-content: center center;
   flex-direction: column;
   border-radius: 8px;
-  padding: 16px;
+  padding: 16px 0;
 }
 .sliderWrapper {
   width: 100%;

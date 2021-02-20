@@ -5,13 +5,15 @@ import styles from "./App.module.scss"
 export default function App() {
   
   return (
-    <div className="containerMaster">
-      <div className="containerScreens">
+    <div className={styles.masterContainer}>
+      <div className={styles.screensContainer}>
         <ScreenStart/>
       </div>
-      <button className={styles.btn}>
-        <div className={styles.icon}/>
-      </button>
+      <div className={styles.btnContainer}>
+        <button className={styles.btn}>
+          <div className={styles.icon}/>
+        </button>
+      </div>
     </div>
   )
 }

@@ -1,3 +1,22 @@
+.masterContainer {
+  height: calc(100% - 64px);
+  margin: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+.screensContainer {
+  width: 100%;
+}
+.btnContainer {
+  margin-top: 32px;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .btn {
   margin: 0 auto;
   height: 80px;
