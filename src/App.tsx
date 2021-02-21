@@ -27,10 +27,10 @@ export default function App() {
     <div className={styles.masterContainer}>
       <div className={styles.topContainer}/>
       <div className={styles.screensContainer}>
-        <div className={styles.screenWrapper + " " + styles.setup + " " + activated}>
+        <div className={styles.screenWrapper + " " + styles.start + " " + activated}>
           <ScreenStart/>
         </div>
-        <div className={styles.screenWrapper + " " + styles.start + " " + activated}>
+        <div className={styles.screenWrapper + " " + styles.timer + " " + activated}>
           Test
         </div>
       </div>

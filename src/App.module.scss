@@ -19,14 +19,14 @@
 }
 .screenWrapper {
   position: absolute;
-  &.setup {
+  &.start {
     opacity: 1;
     transition: opacity 0.4s;
     &.activated {
       opacity: 0;
     }
   }
-  &.start {
+  &.timer {
     background: var(--color-background);
     clip-path: circle(0 at bottom);
     transition: clip-path 0.4s;
