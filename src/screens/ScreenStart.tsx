@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import styles from "./ScreenStart.module.scss"
 import Slider from "../components/Slider"
 import logo from "../logo.svg"
-import {setItem, getItem} from "../utils/storageUtils"
+import {getItem} from "../utils/storageUtils"
+import { useRecoilState } from "recoil"
+import { focusValueState, shortBreakValueState, longBreakValueState } from "../App"
 
-interface ISettings {
-  focusLength: number
-  shortBreakLength: number
-  longBreakLength: number 
-}
 export default function ScreenStart() {
-  const [settingsValues, setSettingsValues] = useState<ISettings>()
+  const [focusValue, setFocusValue] = useRecoilState(focusValueState)
+  const [shortBreakValue, setShortBreakValue] = useRecoilState(shortBreakValueState)
+  const [longBreakValue, setLongBreakValue] = useRecoilState(longBreakValueState)
+
   useEffect(() => {
-    applySettingsValues()
+    applyInitialSettingsValues()
   }, [])
 
-  function applySettingsValues() {
-    setSettingsValues({
-      focusLength: parseSetting(getItem("focusLength"), 25),
-      shortBreakLength: parseSetting(getItem("shortBreakLength"), 5),
-      longBreakLength: parseSetting(getItem("longBreakLength"), 15)
-    })
+  function applyInitialSettingsValues() {
+    setFocusValue(parseSetting(getItem("focusLength"), 25))
+    setShortBreakValue(parseSetting(getItem("shortBreakLength"), 5))
+    setLongBreakValue(parseSetting(getItem("longBreakLength"), 15))
   }
   
   function parseSetting(setting: string | null, defaultSetting: number): number {
@@ -36,13 +34,11 @@ export default function ScreenStart() {
       <img src={logo}/>
       <h2>Adjust your settings</h2>
       <p className={styles.subtext}>Optimize the focus-break balance to your needs</p>
-      {settingsValues &&
-        <div className={styles.settingsContainer}>
-          <Slider title="Focus" default={settingsValues.focusLength} min={1} max={60}/>
-          <Slider title="Short break" default={settingsValues.shortBreakLength} min={1} max={60}/>
-          <Slider title="Long break" default={settingsValues.longBreakLength} min={1} max={60}/>
-        </div>
-      }
+      <div className={styles.settingsContainer}>
+        <Slider title="Focus" value={focusValue} min={1} max={60} callback={setFocusValue}/>
+        <Slider title="Short break" value={shortBreakValue} min={1} max={60} callback={setShortBreakValue}/>
+        <Slider title="Long break" value={longBreakValue} min={1} max={60} callback={setLongBreakValue}/>
+      </div>
     </div>
   )
 }

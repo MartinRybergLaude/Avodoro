@@ -1,10 +1,10 @@
 import React, { ChangeEvent, CSSProperties, useEffect, useState } from "react"
-import { callbackify } from "util"
 import styles from "./Slider.module.scss"
 
 interface Props {
+  callback: (value: number) => void
   title: string
-  default: number
+  value: number
   max: number
   min: number
 }
@@ -16,20 +16,19 @@ interface CSSStyles {
 
 export default function Slider(props: Props) {
 
-  const [value, setValue] = useState(props.default)
   const [style, setStyle] = useState<CSSStyles>()
   
   useEffect(() => {
     setProgressStyles()
-  }, [value])
+  }, [props.value])
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setValue(e.currentTarget.valueAsNumber)
+    props.callback(e.currentTarget.valueAsNumber)
   }
   function setProgressStyles() {
-    const newValue = (value - props.min) * 100 / (props.max - props.min)
+    const newValue = (props.value - props.min) * 100 / (props.max - props.min)
     setStyle({
-      input: {background: `linear-gradient(to right, var(--color-accent), var(--color-accent) ${(value-props.min)/(props.max-props.min)*100}%, rgba(var(--color-accent-rgb), 0.5) ${(value-props.min)/(props.max-props.min)*100}%,rgba(var(--color-accent-rgb), 0.5) 100%)`},
+      input: {background: `linear-gradient(to right, var(--color-accent), var(--color-accent) ${(props.value-props.min)/(props.max-props.min)*100}%, rgba(var(--color-accent-rgb), 0.5) ${(props.value-props.min)/(props.max-props.min)*100}%,rgba(var(--color-accent-rgb), 0.5) 100%)`},
       output: {left: `calc(${newValue}% + (${14 - newValue * 0.28}px))`}
     })
   }
@@ -37,13 +36,13 @@ export default function Slider(props: Props) {
     <div className={styles.masterContainer}>
       <div className={styles.titleContainer}>
         <p>{props.title}</p>
-        <p>{value + " min"}</p>
+        <p>{props.value + " min"}</p>
       </div>
       
       <div className={styles.sliderContainer}>
         <div className={styles.sliderWrapper}>
-          <input style={style?.input} type="range" min={props.min} max={props.max} value={value} onChange={handleChange} className={styles.slider}/>
-          <output style={style?.output} className={styles.bubble}>{value}</output>
+          <input style={style?.input} type="range" min={props.min} max={props.max} value={props.value} onChange={handleChange} className={styles.slider}/>
+          <output style={style?.output} className={styles.bubble}>{props.value}</output>
         </div>
       </div>
     </div>
