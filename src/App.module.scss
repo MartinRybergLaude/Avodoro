@@ -51,15 +51,21 @@
   width: 72px;
   border-radius: 50%;
   background: var(--color-primary);
-  box-shadow: 0 4px 30px rgba(var(--color-primary-rgb), 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  transition: box-shadow 0.4s;
   &:focus {
     border: none;
     outline: none;
   }
+  &:hover {
+    cursor: pointer;
+  }
+}
+.btn.activated {
+  box-shadow: 0 4px 30px rgba(var(--color-primary-rgb), 0.7);
 }
 .icon {
   width: 40px;

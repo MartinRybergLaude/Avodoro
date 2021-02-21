@@ -58,7 +58,7 @@ export default function App() {
         </div>
       </div>
       <div className={styles.btnContainer}>
-        <button onClick={_handleButtonPress} className={styles.btn}>
+        <button onClick={_handleButtonPress} className={styles.btn + " " + activated}>
           <div className={styles.icon + " " + activated}/>
           <div className={styles.ripple + " " + ripple}/>
         </button>
