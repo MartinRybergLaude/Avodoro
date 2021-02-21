@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
+  overflow: hidden;
 }
 .topContainer {
   flex: 1;
@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: clip-path 0.4s;
 }
 .btnContainer {
   margin-top: 16px;
@@ -27,7 +28,8 @@
   align-items: center;
 }
 .btn {
-  margin: 0 auto;
+  z-index: 10;
+  position: relative;
   height: 72px;
   width: 72px;
   border-radius: 50%;
@@ -37,10 +39,36 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  &:focus {
+    border: none;
+    outline: none;
+  }
 }
 .icon {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   border: 4px solid #ffffff;
+  transition: border-radius 0.2s;
+}
+.icon.activated {
+  border-radius: 8px;
+}
+.ripple {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  transform: scale(1);
+  z-index: -1;
+  background: var(--color-primary);
+}
+.rippleActivated {
+  animation: ripple 400ms linear;
+}
+@keyframes ripple {
+  to {
+    transform: scale(20);
+    opacity: 0;
+  }
 }
