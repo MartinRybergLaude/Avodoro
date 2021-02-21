@@ -38,9 +38,9 @@ export default function ScreenStart() {
       <p className={styles.subtext}>Optimize the focus-break balance to your needs</p>
       {settingsValues &&
         <div className={styles.settingsContainer}>
-          <Slider title="Focus" default={settingsValues.focusLength} min={1} max={120}/>
-          <Slider title="Short break" default={settingsValues.shortBreakLength} min={1} max={120}/>
-          <Slider title="Long break" default={settingsValues.longBreakLength} min={1} max={120}/>
+          <Slider title="Focus" default={settingsValues.focusLength} min={1} max={60}/>
+          <Slider title="Short break" default={settingsValues.shortBreakLength} min={1} max={60}/>
+          <Slider title="Long break" default={settingsValues.longBreakLength} min={1} max={60}/>
         </div>
       }
     </div>
