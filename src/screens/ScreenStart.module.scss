@@ -1,7 +1,10 @@
 .masterContainer {
   display: flex;
-  place-items: center center;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
+  width: 100%;
+  max-width: 400px;
   h2 {
     margin: 32px 0 8px 0;
   }
