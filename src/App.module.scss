@@ -11,12 +11,29 @@
   display: flex;
 }
 .screensContainer {
+  position: relative;
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: clip-path 0.4s;
+}
+.screenWrapper {
+  position: absolute;
+  &.setup {
+    opacity: 1;
+    transition: opacity 0.4s;
+    &.activated {
+      opacity: 0;
+    }
+  }
+  &.start {
+    background: var(--color-background);
+    clip-path: circle(0 at bottom);
+    transition: clip-path 0.4s;
+    &.activated {
+      clip-path: circle(100% at center);
+    }
+  }
 }
 .btnContainer {
   margin-top: 16px;

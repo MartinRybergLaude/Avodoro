@@ -27,7 +27,12 @@ export default function App() {
     <div className={styles.masterContainer}>
       <div className={styles.topContainer}/>
       <div className={styles.screensContainer}>
-        <ScreenStart/>
+        <div className={styles.screenWrapper + " " + styles.setup + " " + activated}>
+          <ScreenStart/>
+        </div>
+        <div className={styles.screenWrapper + " " + styles.start + " " + activated}>
+          Test
+        </div>
       </div>
       <div className={styles.btnContainer}>
         <button onClick={_handleButtonPress} className={styles.btn}>
