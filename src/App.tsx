@@ -54,7 +54,9 @@ export default function App() {
           <ScreenStart/>
         </div>
         <div className={styles.screenWrapper + " " + styles.timer + " " + activated}>
-          <ScreenTimer start={activated.length > 0 ? true : false} focusLength={focusValue} shortBreakLength={shortBreakValue} longBreakLength={longBreakValue} />
+          {activated.length > 0 &&
+            <ScreenTimer run={activated.length > 0 ? true : false} focusLength={focusValue} shortBreakLength={shortBreakValue} longBreakLength={longBreakValue} />
+          }
         </div>
       </div>
       <div className={styles.btnContainer}>

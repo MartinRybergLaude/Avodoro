@@ -9,7 +9,7 @@ enum TimerTypes {
 }
 
 interface Props {
-  start: boolean
+  run: boolean
   focusLength: number
   shortBreakLength: number
   longBreakLength: number
@@ -17,15 +17,22 @@ interface Props {
 
 export default function ScreenTimer(props: Props) {
   const [timerType, setTimerType] = useState(TimerTypes.FOCUS)
-  const [timerTime, setTimerTime] = useState(0)
+  const [time, setTime] = useState(props.focusLength * 60)
 
   useEffect(() => {
-    setTimerTime(props.focusLength * 60)
-  }, [props.focusLength])
+    const interval = setInterval(tickTime, 1000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  function tickTime() {
+    setTime(time => time-1)
+  }
 
   function getFormattedTime() {
-    if (timerTime === 60*60) return "60:00"
-    return new Date(timerTime * 1000).toISOString().substr(14, 5)
+    if (time === 60*60) return "60:00"
+    return new Date(time * 1000).toISOString().substr(14, 5)
   }
   
   return (
