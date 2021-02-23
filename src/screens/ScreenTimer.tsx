@@ -17,27 +17,63 @@ interface Props {
 
 export default function ScreenTimer(props: Props) {
   const [timerType, setTimerType] = useState(TimerTypes.FOCUS)
-  const [time, setTime] = useState(props.focusLength * 60)
+  const [time, setTime] = useState(props.focusLength)
+  
+  let doShortbreak = true
+  let startTime = Date.now()
+  let timeSeconds: number
 
   useEffect(() => {
-    const interval = setInterval(tickTime, 1000)
+    timeSeconds = props.focusLength * 60
+    const interval = setInterval(() => {
+      tickTimer()
+    }, 1000)
     return () => {
       clearInterval(interval)
     }
   }, [])
 
-  function tickTime() {
-    setTime(time => time-1)
+  function tickTimer() {
+    const timeLeft = timeSeconds - Math.floor((Date.now() - startTime)/1000)
+    if (timeLeft <= 0) {
+      switch(timerType) {
+      case TimerTypes.FOCUS:
+        if (doShortbreak) {
+          doShortbreak = false
+          setTime(props.shortBreakLength)
+          setTimerType(TimerTypes.SHORTBREAK)
+        } else {
+          doShortbreak = true
+          setTime(props.longBreakLength)
+          setTimerType(TimerTypes.LONGBREAK)
+        }
+        break
+      case TimerTypes.SHORTBREAK: 
+        setTime(props.focusLength)
+        setTimerType(TimerTypes.FOCUS)
+        break
+      case TimerTypes.LONGBREAK:
+        setTime(props.focusLength)
+        setTimerType(TimerTypes.FOCUS)
+        break
+      }
+      startTime = Date.now()
+    } else if (Math.ceil(timeSeconds / 60) !== time) {
+      setTime(Math.ceil(timeSeconds / 60))
+    }
   }
 
-  function getFormattedTime() {
-    if (time === 60*60) return "60:00"
-    return new Date(time * 1000).toISOString().substr(14, 5)
+  function getTimerTypeString(): string {
+    if (timerType === TimerTypes.FOCUS) return "Focus"
+    else return "Relax"
   }
   
   return (
     <div className={styles.masterContainer}>
-      <h1>{getFormattedTime()}</h1>
+      {console.log("ping")}
+      <h2>{getTimerTypeString()}</h2>
+      <h1>{time}</h1>
+      <p>minutes</p>
     </div>
   )
 }
