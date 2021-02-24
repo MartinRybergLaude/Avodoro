@@ -28,10 +28,10 @@
   }
   &.timer {
     background: var(--color-background);
-    clip-path: circle(0 at bottom);
-    transition: clip-path 0.4s;
+    transition: opacity 0.4s;
+    opacity: 0;
     &.activated {
-      clip-path: circle(100% at center);
+      opacity: 1;
     }
   }
 }
@@ -87,11 +87,11 @@
   background: var(--color-primary);
 }
 .rippleActivated {
-  animation: ripple 400ms linear;
+  animation: ripple 400ms ease-out;
 }
 @keyframes ripple {
   to {
-    transform: scale(20);
+    transform: scale(8);
     opacity: 0;
   }
 }
