@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useRecoilValue } from "recoil"
+import Explosion from "../components/Explosion"
 import styles from "./ScreenTimer.module.scss"
 
 enum TimerTypes {
@@ -18,7 +19,7 @@ interface Props {
 export default function ScreenTimer(props: Props) {
   const [timerType, setTimerType] = useState(TimerTypes.FOCUS)
   const [time, setTime] = useState(props.focusLength)
-  
+
   let doShortbreak = true
   let startTime = Date.now()
   let timeSeconds: number
@@ -64,16 +65,27 @@ export default function ScreenTimer(props: Props) {
   }
 
   function getTimerTypeString(): string {
-    if (timerType === TimerTypes.FOCUS) return "Focus"
-    else return "Relax"
+    if (timerType === TimerTypes.FOCUS) return "Keep focusing"
+    else return "Relax for a bit"
+  }
+
+  function getRunExplosion(): number {
+    switch(timerType) {
+    case TimerTypes.FOCUS:
+      return 0
+    case TimerTypes.SHORTBREAK:
+      return 1
+    case TimerTypes.LONGBREAK:
+      return 2
+    }
   }
   
   return (
     <div className={styles.masterContainer}>
-      {console.log("ping")}
       <h2>{getTimerTypeString()}</h2>
       <h1>{time}</h1>
-      <p>minutes</p>
+      <p>{time > 1 ? "minutes remaining" : "minute remaining"}</p>
+      <Explosion run={getRunExplosion()} />
     </div>
   )
 }
