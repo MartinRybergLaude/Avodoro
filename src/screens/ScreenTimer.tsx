@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react"
-import { useRecoilValue } from "recoil"
+import React, { useEffect, useRef, useState } from "react"
 import Explosion from "../components/Explosion"
 import styles from "./ScreenTimer.module.scss"
+import logopng from "../logo192.png"
 
 enum TimerTypes {
   FOCUS,
@@ -16,57 +16,114 @@ interface Props {
   longBreakLength: number
 }
 
+let doShortBreak = true
+
 export default function ScreenTimer(props: Props) {
   const [timerType, setTimerType] = useState(TimerTypes.FOCUS)
   const [time, setTime] = useState(props.focusLength)
 
-  let doShortbreak = true
-  let startTime = Date.now()
+  const startTime = Date.now()
+  const firstUpdate = useRef(true)
+
   let timeSeconds: number
 
   useEffect(() => {
-    timeSeconds = props.focusLength * 60
+    switch(timerType) {
+    case TimerTypes.FOCUS:
+      setTime(props.focusLength)
+      timeSeconds = props.focusLength * 60
+      break
+    case TimerTypes.SHORTBREAK:
+      setTime(props.shortBreakLength)
+      timeSeconds = props.shortBreakLength * 60
+      break
+    case TimerTypes.LONGBREAK:
+      setTime(props.longBreakLength)
+      timeSeconds = props.longBreakLength * 60
+      break
+    }
     const interval = setInterval(() => {
-      tickTimer()
+      tickTimer(interval)
     }, 1000)
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
+    }
+    // Doesn't run on initial render
+    if (window.Notification && Notification.permission === "granted") {
+      showNotification()
+    }
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [timerType])
 
-  function tickTimer() {
+  function showNotification() {
+    let title: string
+    let body: string
+
+    switch(timerType) {
+    case TimerTypes.FOCUS:
+      title = "Focus"
+      body = "Break has ended, focus!"
+      break
+    case TimerTypes.SHORTBREAK:
+      title = "Relax"
+      body = "Take a short break"
+      break
+    case TimerTypes.LONGBREAK:
+      title = "Relax"
+      body = "Take a longer break"
+      break
+    default:
+      title = "Focus"
+      body = "Break has ended, focus!"
+      break
+    }
+    const options = {
+      body,
+      icon: logopng,
+      badge: logopng,
+      tag: "session",
+      renotify: true
+    }
+    new Notification(title, options)
+  }
+  function tickTimer(interval: NodeJS.Timeout) {
     const timeLeft = timeSeconds - Math.floor((Date.now() - startTime)/1000)
     if (timeLeft <= 0) {
       switch(timerType) {
       case TimerTypes.FOCUS:
-        if (doShortbreak) {
-          doShortbreak = false
-          setTime(props.shortBreakLength)
+        if (doShortBreak) {
+          doShortBreak = false
           setTimerType(TimerTypes.SHORTBREAK)
         } else {
-          doShortbreak = true
-          setTime(props.longBreakLength)
+          doShortBreak = true
           setTimerType(TimerTypes.LONGBREAK)
         }
         break
       case TimerTypes.SHORTBREAK: 
-        setTime(props.focusLength)
         setTimerType(TimerTypes.FOCUS)
         break
       case TimerTypes.LONGBREAK:
-        setTime(props.focusLength)
         setTimerType(TimerTypes.FOCUS)
         break
       }
-      startTime = Date.now()
+      clearInterval(interval)
     } else if (Math.ceil(timeSeconds / 60) !== time) {
       setTime(Math.ceil(timeSeconds / 60))
     }
   }
 
   function getTimerTypeString(): string {
-    if (timerType === TimerTypes.FOCUS) return "Keep focusing"
-    else return "Relax for a bit"
+    switch(timerType) {
+    case TimerTypes.FOCUS:
+      return "Keep focusing"
+    case TimerTypes.SHORTBREAK:
+      return "Relax for a bit"
+    case TimerTypes.LONGBREAK:
+      return "Relax a bit longer"
+    }
   }
 
   function getRunExplosion(): number {

@@ -18,9 +18,7 @@ export default function Explosion(props: Props) {
 
   useEffect(() => {
     setShowExplosion(true)
-    console.log("explodes")
     const timer = setTimeout(() => {
-      console.log("gone")
       setShowExplosion(false)
     }, 2000)
     return (() => {

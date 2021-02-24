@@ -13,8 +13,14 @@ export default function ScreenStart() {
 
   useEffect(() => {
     applyInitialSettingsValues()
+    requestNotifications()
   }, [])
 
+  function requestNotifications() {
+    if (window.Notification && Notification.permission !== "denied") {
+      Notification.requestPermission()
+    }
+  }
   function applyInitialSettingsValues() {
     setFocusValue(parseSetting(getItem("focusLength"), 25))
     setShortBreakValue(parseSetting(getItem("shortBreakLength"), 5))
