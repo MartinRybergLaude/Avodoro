@@ -78,3 +78,21 @@ self.addEventListener("message", (event) => {
 })
 
 // Any other custom service worker logic can go here.
+self.addEventListener("notificationclick", function(event) {
+  console.log("On notification click: ", event.notification.tag)
+  event.notification.close()
+
+  // This looks to see if the current is already open and
+  // focuses if it is
+  event.waitUntil(self.clients.matchAll({
+    type: "window"
+  }).then(function(clientList) {
+    for (let i = 0; i < clientList.length; i++) {
+      const client: WindowClient = <WindowClient>clientList[i]
+      if (client.url == "/" && "focus" in client)
+        return client.focus()
+    }
+    if (self.clients.openWindow)
+      return self.clients.openWindow("/")
+  }))
+})

@@ -87,7 +87,13 @@ export default function ScreenTimer(props: Props) {
       tag: "session",
       renotify: true
     }
-    new Notification(title, options)
+    Notification.requestPermission(function(result) {
+      if (result === "granted") {
+        navigator.serviceWorker.ready.then(function(registration) {
+          registration?.showNotification(title, options)
+        })
+      }
+    })
   }
   function tickTimer(interval: NodeJS.Timeout) {
     const timeLeft = timeSeconds - Math.floor((Date.now() - startTime)/1000)
