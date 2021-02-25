@@ -1,0 +1,103 @@
+.masterContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+$d: 64px;
+$sin: 0.951057 0.809017 0.587785 0.309017 0 -0.309017 -0.587785 -0.809017 -0.951057 -1 -0.951057 -0.809017 -0.587785 -0.309017
+  0 0.309017 0.587785 0.809017 0.951057 1;
+$cos: 0.309017 0.587785 0.809017 0.951057 1 0.951057 0.809017 0.587785 0.309017
+  0 -0.309017 -0.587785 -0.809017 -0.951057 -1 -0.951057 -0.809017 -0.587785 -0.309017
+  0;
+.particle {
+  position: absolute;
+  width: $d;
+  height: $d;
+  top: 50%;
+  left: 50%;
+  margin-top: -$d/2;
+  margin-left: -$d/2;
+  animation: shoot 3s ease-out;
+  animation-name: shoot, fade;
+  animation-fill-mode: forwards;
+  @for $i from 0 to 20 {
+    $t: (1 + 0.01 * random(100)) * 1s;
+
+    &:nth-child(#{$i + 1}) {
+      transform: translate(200px * nth($sin, $i + 1), 200px * nth($cos, $i + 1))
+        rotate((random(200)-100) * 5deg);
+      animation-duration: 1s;
+    }
+  }
+}
+
+@keyframes shoot {
+  0% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes fade {
+  to {
+    opacity: 0;
+  }
+}
+
+$pi: 3.14159265359;
+$_precision: 10;
+
+@function cpow($base, $exp) {
+  $value: $base;
+  @if $exp > 1 {
+    @for $i from 2 through $exp {
+      $value: $value * $base;
+    }
+  }
+  @if $exp < 1 {
+    @for $i from 0 through -$exp {
+      $value: $value / $base;
+    }
+  }
+  @return $value;
+}
+
+@function cfact($num) {
+  $fact: 1;
+  @if $num > 0 {
+    @for $i from 1 through $num {
+      $fact: $fact * $i;
+    }
+  }
+  @return $fact;
+}
+
+@function c_to_unitless_rad($angle) {
+  @if unit($angle) == "deg" {
+    $angle: $angle / 180deg * $pi;
+  }
+  @if unit($angle) == "rad" {
+    $angle: $angle / 1rad;
+  }
+  @return $angle;
+}
+
+@function csin($angle) {
+  $a: c_to_unitless_rad($angle);
+  $sin: $a;
+  @for $n from 1 through $_precision {
+    $sin: $sin + (cpow(-1, $n) / cfact(2 * $n + 1)) * cpow($a, (2 * $n + 1));
+  }
+  @return $sin;
+}
+
+@function ccos($angle) {
+  $a: c_to_unitless_rad($angle);
+  $cos: 1;
+  @for $n from 1 through $_precision {
+    $cos: $cos + (cpow(-1, $n) / cfact(2 * $n)) * cpow($a, 2 * $n);
+  }
+  @return $cos;
+}
+
+@function ctan($angle) {
+  @return csin($angle) / ccos($angle);
+}

@@ -1,0 +1,46 @@
+.masterContainer {
+  opacity: 0;
+  z-index: 50;
+  top: 32px;
+  background: rgba(var(--color-primary-rgb), 0.2);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 200ms;
+  p {
+    text-align: left;
+    color: var(--color-secondary);
+  }
+  button {
+    background: none;
+    margin-left: 8px;
+    color: var(--color-primary);
+    &:hover {
+      cursor: pointer;
+    }
+    &:active {
+      transform: scale(0.9);
+    }
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
+}
+.entryAnimation {
+  opacity: 1;
+}
+.exitAnimation {
+  opacity: 0;
+}
+.wrapper {
+  position: fixed;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 50%;
+  transform: translate(-50%, 0);
+}

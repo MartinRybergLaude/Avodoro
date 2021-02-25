@@ -1,0 +1,97 @@
+.masterContainer {
+  height: 100%;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+.topContainer {
+  flex: 1;
+  display: flex;
+}
+.screensContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.screenWrapper {
+  position: absolute;
+  &.start {
+    opacity: 1;
+    transition: opacity 0.4s;
+    &.activated {
+      opacity: 0;
+    }
+  }
+  &.timer {
+    background: var(--color-background);
+    transition: opacity 0.4s;
+    opacity: 0;
+    &.activated {
+      opacity: 1;
+    }
+  }
+}
+.btnContainer {
+  margin-top: 16px;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+}
+.btn {
+  z-index: 10;
+  position: relative;
+  height: 72px;
+  width: 72px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: box-shadow 0.4s;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+.btn.activated {
+  box-shadow: 0 4px 30px rgba(var(--color-primary-rgb), 0.7);
+}
+.icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  transition: border-radius 0.2s;
+}
+.icon.activated {
+  border-radius: 8px;
+}
+.ripple {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  transform: scale(1);
+  z-index: -1;
+  background: var(--color-primary);
+}
+.rippleActivated {
+  animation: ripple 400ms ease-out;
+}
+@keyframes ripple {
+  to {
+    transform: scale(8);
+    opacity: 0;
+  }
+}

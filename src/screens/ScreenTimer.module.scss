@@ -1,0 +1,11 @@
+.masterContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  h1 {
+    width: 256px;
+  }
+}
