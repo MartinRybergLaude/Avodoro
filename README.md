@@ -1,11 +1,11 @@
 <h1 align="center">
-  Aguacate
+  Aguacate 🥑
 </h1>
 <p align="center">
-  A pomodoro timer app built as a Progressive Web App, powered by React
+  A productivity timer app built as a Progressive Web App, powered by React.
 </p>
 
-## Prerequisites
+## 📄 Prerequisites
 
 - NodeJS
 - npm
@@ -45,17 +45,17 @@
 - Sass
 - CSS-modules
 
-## Directory structure
+## 📁 Directory structure
 
 - Package by feature as far as possible
 
-## Code conventions
+## 📑 Code conventions
 
 - Functional components
 - Props & state interface above components
 - Async/await preferred
 
-## Git conventions
+## 📑 Git conventions
 
 - Commit messages are written in <a href="https://en.wikipedia.org/wiki/Imperative_mood">imperative mood</a>
 - Commit messages follow the following structure:
