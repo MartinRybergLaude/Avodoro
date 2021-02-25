@@ -4,6 +4,7 @@ import styles from "./App.module.scss"
 import { atom, useRecoilValue } from "recoil"
 import { setItem } from "./utils/storageUtils"
 import ScreenTimer from "./screens/ScreenTimer"
+import ScreenLoading from "./screens/ScreenLoading"
 
 export const focusValueState = atom({
   key: "focusValueState",
@@ -48,6 +49,7 @@ export default function App() {
 
   return (
     <div className={styles.masterContainer}>
+      <ScreenLoading/>
       <div className={styles.topContainer}/>
       <div className={styles.screensContainer}>
         <div className={styles.screenWrapper + " " + styles.start + " " + activated}>
