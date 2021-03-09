@@ -116,8 +116,8 @@ export default function ScreenTimer(props: Props) {
         break
       }
       clearInterval(interval)
-    } else if (Math.ceil(timeSeconds / 60) !== time) {
-      setTime(Math.ceil(timeSeconds / 60))
+    } else if (Math.ceil(timeLeft / 60) !== time) {
+      setTime(Math.ceil(timeLeft / 60))
     }
   }
 
