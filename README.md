@@ -26,7 +26,7 @@
     Open cmd, terminal or powershell in the cloned direcory and install
 
     ```shell
-    cd nlg
+    cd Aguacate
     npm install
     ```
 
