@@ -60,7 +60,6 @@ export default function ScreenTimer(props: Props) {
     
     // Cleanup function
     return () => {
-      console.log("Cleaned up interval!")
       clearInterval(interval)
     }
   }, [timerType])
@@ -104,7 +103,6 @@ export default function ScreenTimer(props: Props) {
   }
   function tickTimer(interval: NodeJS.Timer) {
     const timeLeft = timeSeconds - Math.floor((Date.now() - startTime)/1000)
-    console.log(timeLeft)
     if (timeLeft <= 0) {
       switch(timerType) {
       case TimerTypes.FOCUS:

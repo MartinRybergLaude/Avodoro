@@ -38,12 +38,8 @@ export default function App() {
       }
     }
   }, [ripple])
-  useEffect(() => {
-    console.log("activated: " + activated)
-  }, [activated])
 
   function _handleButtonPress() {
-    console.log("activated: " + activated)
     activated === styles.activated ? setActivated("deactivated") : setActivated(styles.activated)
     setRipple(styles.rippleActivated)
     setItem("focusLength", focusValue.toString())
