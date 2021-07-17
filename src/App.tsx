@@ -25,7 +25,7 @@ export default function App() {
   const shortBreakValue = useRecoilValue(shortBreakValueState)
   const longBreakValue = useRecoilValue(longBreakValueState)
 
-  const [activated, setActivated] = useState("")
+  const [activated, setActivated] = useState("deactivated")
   const [ripple, setRipple] = useState("")
 
   useEffect(() => {
@@ -38,9 +38,13 @@ export default function App() {
       }
     }
   }, [ripple])
-  
+  useEffect(() => {
+    console.log("activated: " + activated)
+  }, [activated])
+
   function _handleButtonPress() {
-    activated.length > 0 ? setActivated("") : setActivated(styles.activated)
+    console.log("activated: " + activated)
+    activated === styles.activated ? setActivated("deactivated") : setActivated(styles.activated)
     setRipple(styles.rippleActivated)
     setItem("focusLength", focusValue.toString())
     setItem("shortBreakLength", shortBreakValue.toString())
@@ -56,8 +60,8 @@ export default function App() {
           <ScreenStart/>
         </div>
         <div className={styles.screenWrapper + " " + styles.timer + " " + activated}>
-          {activated.length > 0 &&
-            <ScreenTimer run={activated.length > 0 ? true : false} focusLength={focusValue} shortBreakLength={shortBreakValue} longBreakLength={longBreakValue} />
+          {activated === styles.activated &&
+            <ScreenTimer focusLength={focusValue} shortBreakLength={shortBreakValue} longBreakLength={longBreakValue} />
           }
         </div>
       </div>

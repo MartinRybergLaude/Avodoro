@@ -10,13 +10,13 @@ enum TimerTypes {
 }
 
 interface Props {
-  run: boolean
   focusLength: number
   shortBreakLength: number
   longBreakLength: number
 }
 
 let doShortBreak = true
+let interval: NodeJS.Timer
 
 export default function ScreenTimer(props: Props) {
   const [timerType, setTimerType] = useState(TimerTypes.FOCUS)
@@ -42,18 +42,25 @@ export default function ScreenTimer(props: Props) {
       timeSeconds = props.longBreakLength * 60
       break
     }
-    const interval = setInterval(() => {
-      tickTimer(interval)
-    }, 1000)
+    // Detects if this is the first render
     if (firstUpdate.current) {
       firstUpdate.current = false
       return
     }
-    // Doesn't run on initial render
+    // Should not run on initial render to avoid notification spam
     if (window.Notification && Notification.permission === "granted") {
       showNotification()
     }
+  }, [timerType])
+
+  useEffect(() => {
+    interval = setInterval(() => {
+      tickTimer(interval)
+    }, 1000)
+    
+    // Cleanup function
     return () => {
+      console.log("Cleaned up interval!")
       clearInterval(interval)
     }
   }, [timerType])
@@ -95,8 +102,9 @@ export default function ScreenTimer(props: Props) {
       }
     })
   }
-  function tickTimer(interval: NodeJS.Timeout) {
+  function tickTimer(interval: NodeJS.Timer) {
     const timeLeft = timeSeconds - Math.floor((Date.now() - startTime)/1000)
+    console.log(timeLeft)
     if (timeLeft <= 0) {
       switch(timerType) {
       case TimerTypes.FOCUS:
