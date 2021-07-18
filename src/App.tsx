@@ -40,11 +40,28 @@ export default function App() {
   }, [ripple])
 
   function _handleButtonPress() {
+    switch(activated) {
+    case "deactivated":
+    case styles.activated:
+      toggleSession()
+      break
+    case styles.paused:
+      _handlePause()
+    }
+    
+  }
+
+  function toggleSession() {
     activated === styles.activated ? setActivated("deactivated") : setActivated(styles.activated)
     setRipple(styles.rippleActivated)
     setItem("focusLength", focusValue.toString())
     setItem("shortBreakLength", shortBreakValue.toString())
     setItem("longBreakLength", longBreakValue.toString())
+  }
+
+  function _handlePause() {
+    activated === styles.activated ? setActivated(styles.paused) : setActivated(styles.activated)
+    setRipple(styles.rippleActivated)
   }
 
   return (
@@ -56,15 +73,15 @@ export default function App() {
           <ScreenStart/>
         </div>
         <div className={styles.screenWrapper + " " + styles.timer + " " + activated}>
-          {activated === styles.activated &&
-            <ScreenTimer focusLength={focusValue} shortBreakLength={shortBreakValue} longBreakLength={longBreakValue} />
+          { (activated === styles.activated || activated === styles.paused) &&
+            <ScreenTimer focusLength={focusValue} shortBreakLength={shortBreakValue} longBreakLength={longBreakValue} run={activated === styles.activated ? true : false} pauseCallback={_handlePause}/>
           }
         </div>
       </div>
       <div className={styles.btnContainer}>
         <button onClick={_handleButtonPress} className={styles.btn + " " + activated}>
           <div className={styles.icon + " " + activated}/>
-          <div className={styles.ripple + " " + ripple}/>
+          <div className={styles.ripple + " " + ripple + " " + activated}/>
         </button>
       </div>
     </div>

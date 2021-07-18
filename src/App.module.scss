@@ -25,12 +25,18 @@
     &.activated {
       opacity: 0;
     }
+    &.paused {
+      opacity: 0;
+    }
   }
   &.timer {
     background: var(--color-background);
     transition: opacity 0.4s;
     opacity: 0;
     &.activated {
+      opacity: 1;
+    }
+    &.paused {
       opacity: 1;
     }
   }
@@ -67,6 +73,10 @@
 .btn.activated {
   box-shadow: 0 4px 30px rgba(var(--color-primary-rgb), 0.7);
 }
+.btn.paused {
+  background-color: var(--color-accent);
+  box-shadow: none;
+}
 .icon {
   width: 40px;
   height: 40px;
@@ -77,6 +87,9 @@
 .icon.activated {
   border-radius: 8px;
 }
+.icon.paused {
+  border-radius: 50%;
+}
 .ripple {
   position: absolute;
   height: 100%;
@@ -85,6 +98,9 @@
   transform: scale(1);
   z-index: -1;
   background: var(--color-primary);
+}
+.ripple.paused {
+  background: var(--color-accent);
 }
 .rippleActivated {
   animation: ripple 400ms ease-out;

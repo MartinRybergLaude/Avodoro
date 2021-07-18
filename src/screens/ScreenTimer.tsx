@@ -13,6 +13,8 @@ interface Props {
   focusLength: number
   shortBreakLength: number
   longBreakLength: number
+  run: boolean
+  pauseCallback: () => void
 }
 
 let doShortBreak = true
@@ -42,6 +44,7 @@ export default function ScreenTimer(props: Props) {
       timeSeconds = props.longBreakLength * 60
       break
     }
+    console.log(timeSeconds)
     // Detects if this is the first render
     if (firstUpdate.current) {
       firstUpdate.current = false
@@ -51,18 +54,22 @@ export default function ScreenTimer(props: Props) {
     if (window.Notification && Notification.permission === "granted") {
       showNotification()
     }
-  }, [timerType])
+  }, [timerType, props.run])
 
   useEffect(() => {
-    interval = setInterval(() => {
-      tickTimer(interval)
-    }, 1000)
-    
+    if (props.run) {
+      interval = setInterval(() => {
+        tickTimer(interval)
+      }, 1000)
+    } else {
+      console.log("Cleared!")
+      clearInterval(interval)
+    }
     // Cleanup function
     return () => {
       clearInterval(interval)
     }
-  }, [timerType])
+  }, [timerType, props.run])
 
   function showNotification() {
     let title: string
@@ -121,7 +128,7 @@ export default function ScreenTimer(props: Props) {
         setTimerType(TimerTypes.FOCUS)
         break
       }
-      clearInterval(interval)
+      props.pauseCallback()
     } else if (Math.ceil(timeLeft / 60) !== time) {
       setTime(Math.ceil(timeLeft / 60))
     }
@@ -151,9 +158,15 @@ export default function ScreenTimer(props: Props) {
   
   return (
     <div className={styles.masterContainer}>
-      <h2>{getTimerTypeString()}</h2>
-      <h1>{time}</h1>
-      <p>{time > 1 ? "minutes remaining" : "minute remaining"}</p>
+      {props.run ?
+        <>
+          <h2>{getTimerTypeString()}</h2>
+          <h1>{time}</h1>
+          <p>{time > 1 ? "minutes remaining" : "minute remaining"}</p>
+        </>
+        : 
+        <h2>Continue?</h2>
+      }
       <Explosion run={getRunExplosion()} />
     </div>
   )
