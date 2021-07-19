@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import Explosion from "../components/Explosion"
 import styles from "./ScreenTimer.module.scss"
 import logopng from "../logo192.png"
+import ProgressBar from "../components/ProgressBar"
 
 enum TimerTypes {
   FOCUS,
@@ -13,14 +14,17 @@ interface Props {
   focusLength: number
   shortBreakLength: number
   longBreakLength: number
+  run: boolean
+  pauseCallback: () => void
 }
 
-let doShortBreak = true
 let interval: NodeJS.Timer
 
 export default function ScreenTimer(props: Props) {
   const [timerType, setTimerType] = useState(TimerTypes.FOCUS)
   const [time, setTime] = useState(props.focusLength)
+  const [showExplosion, setShowExplosion] = useState(false)
+  const [sessionsCompleted, setSessionsCompleted] = useState(0)
 
   const startTime = Date.now()
   const firstUpdate = useRef(true)
@@ -51,18 +55,31 @@ export default function ScreenTimer(props: Props) {
     if (window.Notification && Notification.permission === "granted") {
       showNotification()
     }
-  }, [timerType])
+  }, [timerType, props.run])
 
   useEffect(() => {
-    interval = setInterval(() => {
-      tickTimer(interval)
-    }, 1000)
-    
+    if (props.run) {
+      interval = setInterval(() => {
+        tickTimer()
+      }, 1000)
+      setShowExplosion(true)
+    } else {
+      clearInterval(interval)
+    }
     // Cleanup function
     return () => {
       clearInterval(interval)
     }
-  }, [timerType])
+  }, [timerType, props.run])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowExplosion(false)
+    }, 2000)
+    return (() => {
+      clearTimeout(timeout)
+    })
+  }, [showExplosion])
 
   function showNotification() {
     let title: string
@@ -70,20 +87,20 @@ export default function ScreenTimer(props: Props) {
 
     switch(timerType) {
     case TimerTypes.FOCUS:
-      title = "Focus"
-      body = "Break has ended, focus!"
+      title = "Next: Focus"
+      body = "Ready to focus?"
       break
     case TimerTypes.SHORTBREAK:
-      title = "Relax"
-      body = "Take a short break"
+      title = "Next: Relax"
+      body = "Ready for a short break?"
       break
     case TimerTypes.LONGBREAK:
-      title = "Relax"
-      body = "Take a longer break"
+      title = "Next: Relax"
+      body = "Ready for a longer break?"
       break
     default:
-      title = "Focus"
-      body = "Break has ended, focus!"
+      title = "Next: Focus"
+      body = "Ready to focus?"
       break
     }
     const options = {
@@ -101,27 +118,27 @@ export default function ScreenTimer(props: Props) {
       }
     })
   }
-  function tickTimer(interval: NodeJS.Timer) {
+  function tickTimer() {
     const timeLeft = timeSeconds - Math.floor((Date.now() - startTime)/1000)
     if (timeLeft <= 0) {
       switch(timerType) {
       case TimerTypes.FOCUS:
-        if (doShortBreak) {
-          doShortBreak = false
+        if (sessionsCompleted !== 3) {
           setTimerType(TimerTypes.SHORTBREAK)
         } else {
-          doShortBreak = true
           setTimerType(TimerTypes.LONGBREAK)
         }
         break
-      case TimerTypes.SHORTBREAK: 
+      case TimerTypes.SHORTBREAK:
+        setSessionsCompleted(sessionsCompleted + 1)
         setTimerType(TimerTypes.FOCUS)
         break
       case TimerTypes.LONGBREAK:
+        setSessionsCompleted(0)
         setTimerType(TimerTypes.FOCUS)
         break
       }
-      clearInterval(interval)
+      props.pauseCallback()
     } else if (Math.ceil(timeLeft / 60) !== time) {
       setTime(Math.ceil(timeLeft / 60))
     }
@@ -138,23 +155,33 @@ export default function ScreenTimer(props: Props) {
     }
   }
 
-  function getRunExplosion(): number {
+  function getNextTypeString(): string {
     switch(timerType) {
     case TimerTypes.FOCUS:
-      return 0
+      return "Focus"
     case TimerTypes.SHORTBREAK:
-      return 1
+      return "Short break"
     case TimerTypes.LONGBREAK:
-      return 2
+      return "Long break"
     }
   }
   
   return (
     <div className={styles.masterContainer}>
-      <h2>{getTimerTypeString()}</h2>
-      <h1>{time}</h1>
-      <p>{time > 1 ? "minutes remaining" : "minute remaining"}</p>
-      <Explosion run={getRunExplosion()} />
+      {props.run ?
+        <>
+          <h2>{getTimerTypeString()}</h2>
+          <h1>{time}</h1>
+          <p>{time > 1 ? "minutes remaining" : "minute remaining"}</p>
+        </>
+        : 
+        <>
+          <h2>Next up: {getNextTypeString()}</h2>
+          <p className={styles.ready}>Ready?</p>
+        </>
+      }
+      <ProgressBar stage={sessionsCompleted + 1}/>
+      {showExplosion && <Explosion /> }
     </div>
   )
 }
