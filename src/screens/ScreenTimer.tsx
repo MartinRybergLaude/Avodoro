@@ -87,20 +87,20 @@ export default function ScreenTimer(props: Props) {
 
     switch(timerType) {
     case TimerTypes.FOCUS:
-      title = "Focus"
-      body = "Break has ended, focus!"
+      title = "Next: Focus"
+      body = "Ready to focus?"
       break
     case TimerTypes.SHORTBREAK:
-      title = "Relax"
-      body = "Take a short break"
+      title = "Next: Relax"
+      body = "Ready for a short break?"
       break
     case TimerTypes.LONGBREAK:
-      title = "Relax"
-      body = "Take a longer break"
+      title = "Next: Relax"
+      body = "Ready for a longer break?"
       break
     default:
-      title = "Focus"
-      body = "Break has ended, focus!"
+      title = "Next: Focus"
+      body = "Ready to focus?"
       break
     }
     const options = {
