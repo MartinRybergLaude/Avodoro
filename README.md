@@ -18,7 +18,7 @@
 
     ```shell
     # Clone the repo to a local directory
-    git clone https://github.com/MartinRybergLaude/Aguacate.git
+    git clone https://github.com/MartinRybergLaude/Avodoro.git
     ```
 
 2.  **Install**
