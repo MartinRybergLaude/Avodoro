@@ -17,12 +17,13 @@ interface Props {
   pauseCallback: () => void
 }
 
-let doShortBreak = true
+let avodorosCompleted = 0
 let interval: NodeJS.Timer
 
 export default function ScreenTimer(props: Props) {
   const [timerType, setTimerType] = useState(TimerTypes.FOCUS)
   const [time, setTime] = useState(props.focusLength)
+  const [showExplosion, setShowExplosion] = useState(false)
 
   const startTime = Date.now()
   const firstUpdate = useRef(true)
@@ -44,7 +45,6 @@ export default function ScreenTimer(props: Props) {
       timeSeconds = props.longBreakLength * 60
       break
     }
-    console.log(timeSeconds)
     // Detects if this is the first render
     if (firstUpdate.current) {
       firstUpdate.current = false
@@ -59,10 +59,10 @@ export default function ScreenTimer(props: Props) {
   useEffect(() => {
     if (props.run) {
       interval = setInterval(() => {
-        tickTimer(interval)
+        tickTimer()
       }, 1000)
+      setShowExplosion(true)
     } else {
-      console.log("Cleared!")
       clearInterval(interval)
     }
     // Cleanup function
@@ -70,6 +70,15 @@ export default function ScreenTimer(props: Props) {
       clearInterval(interval)
     }
   }, [timerType, props.run])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowExplosion(false)
+    }, 2000)
+    return (() => {
+      clearTimeout(timeout)
+    })
+  }, [showExplosion])
 
   function showNotification() {
     let title: string
@@ -108,23 +117,23 @@ export default function ScreenTimer(props: Props) {
       }
     })
   }
-  function tickTimer(interval: NodeJS.Timer) {
+  function tickTimer() {
     const timeLeft = timeSeconds - Math.floor((Date.now() - startTime)/1000)
     if (timeLeft <= 0) {
       switch(timerType) {
       case TimerTypes.FOCUS:
-        if (doShortBreak) {
-          doShortBreak = false
+        if (avodorosCompleted !== 3) {
           setTimerType(TimerTypes.SHORTBREAK)
         } else {
-          doShortBreak = true
           setTimerType(TimerTypes.LONGBREAK)
         }
         break
-      case TimerTypes.SHORTBREAK: 
+      case TimerTypes.SHORTBREAK:
+        avodorosCompleted++ 
         setTimerType(TimerTypes.FOCUS)
         break
       case TimerTypes.LONGBREAK:
+        avodorosCompleted = 0
         setTimerType(TimerTypes.FOCUS)
         break
       }
@@ -145,14 +154,14 @@ export default function ScreenTimer(props: Props) {
     }
   }
 
-  function getRunExplosion(): number {
+  function getNextTypeString(): string {
     switch(timerType) {
     case TimerTypes.FOCUS:
-      return 0
+      return "Focus"
     case TimerTypes.SHORTBREAK:
-      return 1
+      return "Short break"
     case TimerTypes.LONGBREAK:
-      return 2
+      return "long break"
     }
   }
   
@@ -165,9 +174,12 @@ export default function ScreenTimer(props: Props) {
           <p>{time > 1 ? "minutes remaining" : "minute remaining"}</p>
         </>
         : 
-        <h2>Continue?</h2>
+        <>
+          <h2>Next up: {getNextTypeString()}</h2>
+          <p>Ready?</p>
+        </>
       }
-      <Explosion run={getRunExplosion()} />
+      {showExplosion && <Explosion /> }
     </div>
   )
 }
