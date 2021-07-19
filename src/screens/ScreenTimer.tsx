@@ -32,6 +32,18 @@ export default function ScreenTimer(props: Props) {
   let timeSeconds: number
 
   useEffect(() => {
+    // Detects if this is the first render
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
+    }
+    // Should not run on initial render to avoid notification spam
+    if (props.run && window.Notification && Notification.permission === "granted") {
+      showNotification()
+    }
+  }, [props.run])
+  
+  useEffect(() => {
     switch(timerType) {
     case TimerTypes.FOCUS:
       setTime(props.focusLength)
@@ -45,15 +57,6 @@ export default function ScreenTimer(props: Props) {
       setTime(props.longBreakLength)
       timeSeconds = props.longBreakLength * 60
       break
-    }
-    // Detects if this is the first render
-    if (firstUpdate.current) {
-      firstUpdate.current = false
-      return
-    }
-    // Should not run on initial render to avoid notification spam
-    if (window.Notification && Notification.permission === "granted") {
-      showNotification()
     }
   }, [timerType, props.run])
 
@@ -91,11 +94,11 @@ export default function ScreenTimer(props: Props) {
       body = "Ready to focus?"
       break
     case TimerTypes.SHORTBREAK:
-      title = "Next: Relax"
+      title = "Next: Short break"
       body = "Ready for a short break?"
       break
     case TimerTypes.LONGBREAK:
-      title = "Next: Relax"
+      title = "Next: Long break"
       body = "Ready for a longer break?"
       break
     default:
