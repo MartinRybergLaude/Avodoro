@@ -17,7 +17,7 @@ export default function ScreenStart() {
   }, [])
 
   function requestNotifications() {
-    if (window.Notification) {
+    if (window.Notification && Notification.permission !== "denied") {
       Notification.requestPermission()
     }
   }

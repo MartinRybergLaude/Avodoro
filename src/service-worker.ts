@@ -84,15 +84,22 @@ self.addEventListener("notificationclick", function(event) {
 
   // This looks to see if the current is already open and
   // focuses if it is
+  const urlToOpen = new URL("/", self.location.origin).href
   event.waitUntil(self.clients.matchAll({
     type: "window"
   }).then(function(clientList) {
+    let matchingClient = null
     for (let i = 0; i < clientList.length; i++) {
       const client: WindowClient = <WindowClient>clientList[i]
-      if (client.url == "/" && "focus" in client)
-        return client.focus()
+      if (client.url == urlToOpen) {
+        matchingClient = client
+        break
+      }
     }
-    if (self.clients.openWindow)
-      return self.clients.openWindow("/")
+    if (matchingClient) {
+      return matchingClient.focus()
+    } else {
+      return self.clients.openWindow(urlToOpen)
+    }
   }))
 })
