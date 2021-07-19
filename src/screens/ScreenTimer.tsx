@@ -38,11 +38,11 @@ export default function ScreenTimer(props: Props) {
       return
     }
     // Should not run on initial render to avoid notification spam
-    if (props.run && window.Notification && Notification.permission === "granted") {
+    if (!props.run && window.Notification && Notification.permission === "granted") {
       showNotification()
     }
   }, [props.run])
-  
+
   useEffect(() => {
     switch(timerType) {
     case TimerTypes.FOCUS:
