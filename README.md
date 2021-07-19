@@ -1,5 +1,5 @@
 <h1 align="center">
-  Aguacate 🥑
+  Avodoro 🥑
 </h1>
 <p align="center">
   A productivity timer app built as a Progressive Web App, powered by React.
@@ -26,7 +26,7 @@
     Open cmd, terminal or powershell in the cloned direcory and install
 
     ```shell
-    cd Aguacate
+    cd Avodoro
     npm install
     ```
 

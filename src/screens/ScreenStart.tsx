@@ -38,7 +38,7 @@ export default function ScreenStart() {
   return (
     <div className={styles.masterContainer}>
       <img src={logo}/>
-      <h2>Adjust your settings</h2>
+      <h2>Avodoro</h2>
       <p className={styles.subtext}>Optimize the focus-break balance to your needs</p>
       <div className={styles.settingsContainer}>
         <Slider title="Focus" value={focusValue} min={1} max={60} callback={setFocusValue}/>
