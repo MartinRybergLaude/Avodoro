@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import Explosion from "../components/Explosion"
 import styles from "./ScreenTimer.module.scss"
 import logopng from "../logo192.png"
+import ProgressBar from "../components/ProgressBar"
 
 enum TimerTypes {
   FOCUS,
@@ -17,13 +18,13 @@ interface Props {
   pauseCallback: () => void
 }
 
-let avodorosCompleted = 0
 let interval: NodeJS.Timer
 
 export default function ScreenTimer(props: Props) {
   const [timerType, setTimerType] = useState(TimerTypes.FOCUS)
   const [time, setTime] = useState(props.focusLength)
   const [showExplosion, setShowExplosion] = useState(false)
+  const [sessionsCompleted, setSessionsCompleted] = useState(0)
 
   const startTime = Date.now()
   const firstUpdate = useRef(true)
@@ -122,18 +123,18 @@ export default function ScreenTimer(props: Props) {
     if (timeLeft <= 0) {
       switch(timerType) {
       case TimerTypes.FOCUS:
-        if (avodorosCompleted !== 3) {
+        if (sessionsCompleted !== 3) {
           setTimerType(TimerTypes.SHORTBREAK)
         } else {
           setTimerType(TimerTypes.LONGBREAK)
         }
         break
       case TimerTypes.SHORTBREAK:
-        avodorosCompleted++ 
+        setSessionsCompleted(sessionsCompleted + 1)
         setTimerType(TimerTypes.FOCUS)
         break
       case TimerTypes.LONGBREAK:
-        avodorosCompleted = 0
+        setSessionsCompleted(0)
         setTimerType(TimerTypes.FOCUS)
         break
       }
@@ -161,7 +162,7 @@ export default function ScreenTimer(props: Props) {
     case TimerTypes.SHORTBREAK:
       return "Short break"
     case TimerTypes.LONGBREAK:
-      return "long break"
+      return "Long break"
     }
   }
   
@@ -176,9 +177,10 @@ export default function ScreenTimer(props: Props) {
         : 
         <>
           <h2>Next up: {getNextTypeString()}</h2>
-          <p>Ready?</p>
+          <p className={styles.ready}>Ready?</p>
         </>
       }
+      <ProgressBar stage={sessionsCompleted + 1}/>
       {showExplosion && <Explosion /> }
     </div>
   )
