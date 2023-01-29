@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="https://github.com/MartinRybergLaude/Avodoro/blob/master/public/avodoro.svg?raw=true" width="80" alt="">
+   <img src="https://github.com/MartinRybergLaude/Avodoro/blob/master/public/avodoro.png?raw=true" width="80" alt="">
 </p>
 <h1 align="center">
   Avodoro
