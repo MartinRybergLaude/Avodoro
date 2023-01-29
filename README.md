@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="https://github.com/MartinRybergLaude/Avodoro/blob/main/public/avodoro.svg?raw=true" width="80" alt="">
+   <img src="https://github.com/MartinRybergLaude/avodoro-timer/blob/main/public/avodoro.svg?raw=true" width="80" alt="">
 </p>
 <h1 align="center">
   Avodoro
@@ -24,7 +24,7 @@
 
     ```shell
     # Clone the repo to a local directory
-    git clone https://github.com/MartinRybergLaude/Avodoro.git
+    git clone https://github.com/MartinRybergLaude/avodoro-timer.git
     ```
 
 2.  **Install**
@@ -32,7 +32,7 @@
     Open cmd, terminal or powershell in the cloned direcory and install
 
     ```shell
-    cd Avodoro
+    cd avodoro-timer
     pnpm i
     ```
 
