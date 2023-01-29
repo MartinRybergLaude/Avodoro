@@ -1,5 +1,8 @@
+<p align="center">
+   <img src="https://github.com/MartinRybergLaude/Avodoro/blob/master/public/avodoro.svg?raw=true" width="80" alt="">
+</p>
 <h1 align="center">
-  Avodoro 🥑
+  Avodoro
 </h1>
 <p align="center">
   A productivity timer app built as a Progressive Web App, powered by React.
@@ -7,8 +10,8 @@
 
 ## 📄 Prerequisites
 
-- NodeJS
-- npm
+- Node.js
+- pnpm
 
 ## 🚀 Quick start
 
@@ -27,7 +30,7 @@
 
     ```shell
     cd Avodoro
-    npm install
+    pnpm i
     ```
 
 3.  **Start the app**
@@ -35,15 +38,15 @@
     Start the app on `http://localhost:3000`
 
     ```shell
-    npm start
+    pnpm dev
     ```
 
 ## 🧐 Technologies
 
-- React
+- React.js
 - Typescript
 - Sass
-- CSS-modules
+- CSS modules
 
 ## 📁 Directory structure
 

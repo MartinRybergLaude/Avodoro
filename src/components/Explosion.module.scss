@@ -1,3 +1,4 @@
+@use 'sass:math';
 .masterContainer {
   position: absolute;
   width: 100%;
@@ -15,8 +16,8 @@ $cos: 0.309017 0.587785 0.809017 0.951057 1 0.951057 0.809017 0.587785 0.309017
   height: $d;
   top: 50%;
   left: 50%;
-  margin-top: -$d/2;
-  margin-left: -$d/2;
+  margin-top: math.div(-$d,2);
+  margin-left: math.div(-$d,2);
   animation: shoot 3s ease-out;
   animation-name: shoot, fade;
   animation-fill-mode: forwards;

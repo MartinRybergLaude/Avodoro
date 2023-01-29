@@ -17,13 +17,12 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
         "@typescript-eslint"
     ],
     "rules": {
         "indent": [
             "error",
-            2
+            2, {"SwitchCase": 1}
         ],
         "linebreak-style": [
             "error",
@@ -33,15 +32,15 @@
             "error",
             "double"
         ],
-        "semi": [
-            "error",
-            "never"
-        ],
         "no-constant-condition": [
             "error",
             {
                 "checkLoops": false
             }
-        ]
+        ],
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off"
     }
 }
