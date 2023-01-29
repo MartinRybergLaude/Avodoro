@@ -8,8 +8,7 @@
   A productivity timer app built as a Progressive Web App, powered by React.
 </p>
 <p align="center">
-    <a href="https://avodoro.mrlaude.com">Website</a>
-  • <a href="https://mrlaude.com/work/avodoro">Case study</a>
+    <a href="https://avodoro.mrlaude.com">Live</a>
 </p>
 
 ## 📄 Prerequisites
