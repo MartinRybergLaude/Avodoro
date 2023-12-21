@@ -70,11 +70,15 @@ export default function ScreenTimer(props: Props) {
         tickTimer();
       }, 1000);
       setShowExplosion(true);
-    } else {
+    } else if (interval) {
+      // eslint-disable-next-line
+      // @ts-ignore
       clearInterval(interval);
     }
     // Cleanup function
     return () => {
+      // eslint-disable-next-line
+      // @ts-ignore
       clearInterval(interval);
     };
   }, [timerType, props.run]);
